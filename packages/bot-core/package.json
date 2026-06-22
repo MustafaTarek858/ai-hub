@@ -1,0 +1,14 @@
+{
+  "name": "@ai-hub/bot-core",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@ai-hub/ai-core": "workspace:*",
+    "groq-sdk": "^0.7.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

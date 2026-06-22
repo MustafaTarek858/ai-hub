@@ -1,0 +1,16 @@
+{
+  "name": "ai-hub",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev:chat": "pnpm --filter ai-chat dev",
+    "dev:widget": "pnpm --filter chatbot-widget dev",
+    "dev:clinic": "pnpm --filter whatsapp-clinic dev",
+    "dev:supermarket": "pnpm --filter whatsapp-supermarket dev",
+    "build": "pnpm --recursive build",
+    "lint": "pnpm --recursive lint"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

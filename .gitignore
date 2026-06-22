@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# Keep example files (no real secrets)
+!.env.example
+
+# pnpm
+.pnpm-store/
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

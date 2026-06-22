@@ -1,0 +1,41 @@
+:root {
+  /* Surfaces — Warm Editorial light (default) */
+  --color-bg-base:        #FAF8F5;
+  --color-bg-surface:     #F3F0EB;
+  --color-bg-elevated:    #EDEAE3;
+  --color-bg-input:       #F7F5F1;
+
+  /* Borders */
+  --color-border-subtle:  #E4DFDA;
+  --color-border-default: #CEC8C0;
+
+  /* Text */
+  --color-text-primary:   #1C1713;
+  --color-text-secondary: #5C5249;
+  --color-text-muted:     #9C9189;
+
+  /* Brand accent — terracotta */
+  --color-accent:         #D4613C;
+  --color-accent-hover:   #BD5433;
+  --color-accent-subtle:  rgba(212, 97, 60, 0.10);
+
+  /* Semantic */
+  --color-success:        #2D7A4F;
+  --color-error:          #C0392B;
+  --color-warning:        #C07A1A;
+}
+
+[data-theme="dark"] {
+  --color-bg-base:        #0f0f0f;
+  --color-bg-surface:     #1a1a1a;
+  --color-bg-elevated:    #242424;
+  --color-bg-input:       #2a2a2a;
+  --color-border-subtle:  #2e2e2e;
+  --color-border-default: #3d3d3d;
+  --color-text-primary:   #f0f0f0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted:     #666666;
+  --color-accent:         #D4613C;
+  --color-accent-hover:   #BD5433;
+  --color-accent-subtle:  rgba(212, 97, 60, 0.13);
+}
