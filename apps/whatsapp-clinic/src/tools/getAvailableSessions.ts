@@ -12,11 +12,11 @@ export const getAvailableSessions: Tool = {
         properties: {
           specialty: {
             type: 'string',
-            description: 'Medical specialty e.g. dentist, dermatologist, general, pediatrics. Leave empty for all.',
+            description: 'Medical specialty in English only. Allowed values: dentist, dermatologist, general, pediatrics. Leave empty string for all.',
           },
           date: {
             type: 'string',
-            description: 'Date in YYYY-MM-DD format. Leave empty for all upcoming dates.',
+            description: 'Date in YYYY-MM-DD format. Leave empty string for all upcoming dates.',
           },
         },
       },

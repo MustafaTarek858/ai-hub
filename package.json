@@ -6,6 +6,7 @@
     "dev:chat": "pnpm --filter ai-chat dev",
     "dev:widget": "pnpm --filter chatbot-widget dev",
     "dev:clinic": "pnpm --filter whatsapp-clinic dev",
+    "start:clinic": "pnpm --filter whatsapp-clinic start",
     "dev:supermarket": "pnpm --filter whatsapp-supermarket dev",
     "build": "pnpm --recursive build",
     "lint": "pnpm --recursive lint"

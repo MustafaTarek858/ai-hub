@@ -3,4 +3,6 @@ packages:
   - 'apps/*'
 
 allowBuilds:
+  '@whiskeysockets/baileys': true
   esbuild: true
+  protobufjs: true

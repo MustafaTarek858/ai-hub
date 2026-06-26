@@ -31,19 +31,25 @@ export const bookSession: Tool = {
   handler: async (args) => {
     const session = sessions.find((s) => s.id === args.session_id);
 
+    if (!args.patient_name?.trim()) {
+      return `ERROR: Patient name is required to complete the booking.`;
+    }
+
+    if (!args.patient_phone?.trim()) {
+      return `ERROR: Patient phone number is required to complete the booking.`;
+    }
+
     if (!session) {
-      return `Session ${args.session_id} not found.`;
+      return `ERROR: Session "${args.session_id}" does not exist. Please ask the patient to choose a valid session from the available list.`;
     }
 
     if (session.isBooked) {
-      return `Sorry, session ${args.session_id} is already booked. Please choose another.`;
+      return `ERROR: Session "${args.session_id}" is already booked. Please show the patient other available sessions.`;
     }
 
-    // Mark as booked
     session.isBooked = true;
 
-    // Create reservation
-    const reservationId = `r${Date.now()}`;
+    const reservationId = `CLN-${Math.floor(1000 + Math.random() * 9000)}`;
     reservations.push({
       id: reservationId,
       sessionId: session.id,
@@ -51,11 +57,13 @@ export const bookSession: Tool = {
       patientPhone: args.patient_phone,
     });
 
-    return `Booking confirmed!
+    return `BOOKING_SUCCESS
 Reservation ID: ${reservationId}
 Patient: ${args.patient_name}
-Doctor: ${session.doctor} (${session.specialty})
-Date: ${session.date} at ${session.time}
-To cancel, say: cancel ${reservationId}`;
+Phone: ${args.patient_phone}
+Doctor: ${session.doctor}
+Specialty: ${session.specialty}
+Date: ${session.date}
+Time: ${session.time}`;
   },
 };

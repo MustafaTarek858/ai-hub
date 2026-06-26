@@ -4,14 +4,19 @@ import type { BotConfig, ConversationMessage } from './types';
 export async function runBot(
   userMessage: string,
   history: ConversationMessage[],
-  config: BotConfig
+  config: BotConfig,
+  languageInstruction?: string
 ): Promise<string> {
   const groq = new Groq({ apiKey: config.apiKey });
   const model = config.model ?? 'llama-3.3-70b-versatile';
 
+  const systemPrompt = languageInstruction
+    ? `${config.systemPrompt}\n\n${languageInstruction}`
+    : config.systemPrompt;
+
   // Build the full message list
   const messages: ConversationMessage[] = [
-    { role: 'system', content: config.systemPrompt },
+    { role: 'system', content: systemPrompt },
     ...history,
     { role: 'user', content: userMessage },
   ];
@@ -19,15 +24,42 @@ export async function runBot(
   // Extract just the tool definitions to send to Groq
   const toolDefinitions = config.tools.map((t) => t.definition);
 
-  // Step 1 — send to Groq with tools list
-  const response = await groq.chat.completions.create({
-    model,
-    messages: messages as any,
-    tools: toolDefinitions as any,
-    tool_choice: 'auto',
-  });
+  let aiMessage: any;
 
-  const aiMessage = response.choices[0].message;
+  try {
+    // Step 1 — send to Groq with tools list
+    const response = await groq.chat.completions.create({
+      model,
+      messages: messages as any,
+      tools: toolDefinitions as any,
+      tool_choice: 'auto',
+    });
+    aiMessage = response.choices[0].message;
+  } catch (err: any) {
+    // Handle malformed tool call — model output <function=name {...}> as text
+    const failedGen = err?.error?.error?.failed_generation as string | undefined;
+    if (err?.status === 400 && failedGen) {
+      const match = failedGen.match(/<function=(\w+)\s+(\{.*?\})\s*<\/function>/s);
+      if (match) {
+        const toolName = match[1];
+        const toolArgs = JSON.parse(match[2]);
+        const tool = config.tools.find((t) => t.definition.function.name === toolName);
+        if (tool) {
+          const toolResult = await tool.handler(toolArgs);
+          const recovery = await groq.chat.completions.create({
+            model,
+            messages: [
+              ...messages as any,
+              { role: 'assistant', content: `I need to call ${toolName}` },
+              { role: 'user', content: `Tool result: ${toolResult}` },
+            ],
+          });
+          return recovery.choices[0].message.content ?? 'No response.';
+        }
+      }
+    }
+    throw err;
+  }
 
   // Step 2 — check if Groq wants to call a tool
   if (aiMessage.tool_calls && aiMessage.tool_calls.length > 0) {

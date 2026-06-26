@@ -24,7 +24,7 @@ export const cancelReservation: Tool = {
     const index = reservations.findIndex((r) => r.id === args.reservation_id);
 
     if (index === -1) {
-      return `Reservation ${args.reservation_id} not found.`;
+      return `ERROR: Reservation "${args.reservation_id}" not found. Please ask the patient to double-check their reservation ID.`;
     }
 
     const reservation = reservations[index];
